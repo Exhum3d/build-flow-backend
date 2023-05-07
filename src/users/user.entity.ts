@@ -1,11 +1,13 @@
+import { Project } from 'src/project/entities/project.entity';
 import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  IsNull,
   AfterRemove,
   AfterUpdate,
   AfterInsert,
+  OneToMany,
+  ManyToMany,
 } from 'typeorm';
 
 // Exemplu entitate
@@ -13,7 +15,7 @@ import {
 // name: 'Victor Sterea',
 // email: 'sterea.victor@company.com',
 // avatar: 'assets/images/avatars/sterea-victor.jpg',
-// status: 'online',
+// status: 'activ',
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')
@@ -36,6 +38,12 @@ export class User {
 
   @Column({ nullable: true })
   status: string;
+
+  @OneToMany(() => Project, (project) => project.createdBy)
+  createdProjects: Project[];
+
+  @ManyToMany(() => Project, (project) => project.members)
+  projects: Project[];
 
   @AfterInsert()
   logInsert() {

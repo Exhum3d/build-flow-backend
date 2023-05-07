@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -9,38 +10,55 @@ export class UsersService {
     @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
 
-  create(name: string, email: string, password: string, company: string) {
+  async create(
+    name: string,
+    email: string,
+    password: string,
+    company: string,
+  ): Promise<User> {
+    const saltRounds = 10;
+    password = await bcrypt.hash(password, saltRounds);
+
     const user = this.userRepository.create({
       name,
       email,
       password,
       company,
     });
-    this.userRepository.save(user);
+
+    return this.userRepository.save(user);
   }
 
-  findOne(id: string) {
+  async findById(id: string): Promise<User> {
     return this.userRepository.findOneBy({ id });
   }
 
-  find(email: string) {
-    return this.userRepository.find({ where: { email } });
+  async findByEmail(email: string): Promise<User> {
+    return this.userRepository.findOne({ where: { email } });
   }
 
-  async update(id: string, attrs: Partial<User>) {
-    const user = await this.findOne(id);
+  async update(id: string, attrs: Partial<User>): Promise<User> {
+    const user = await this.findById(id);
     if (!user) {
-      throw new Error('utilizatorul nu a fost gasit');
+      throw new NotFoundException('utilizatorul nu a fost gasit');
     }
     Object.assign(user, attrs);
     return this.userRepository.save(user);
   }
 
-  async remove(id: string) {
-    const user = await this.findOne(id);
+  async remove(id: string): Promise<User> {
+    const user = await this.findById(id);
     if (!user) {
-      throw new Error('utilizatorul nu a fost gasit');
+      throw new NotFoundException('utilizatorul nu a fost gasit');
     }
     return this.userRepository.remove(user);
+  }
+
+  // Functie helper de comparare a parolelor
+  async comparePasswords(
+    plainPassword: string,
+    hashedPassword: string,
+  ): Promise<boolean> {
+    return await bcrypt.compare(plainPassword, hashedPassword);
   }
 }
