@@ -1,0 +1,64 @@
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  NotFoundException,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
+import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { AuthService } from './auth/auth.service';
+import { CreateUserDto } from './dtos/create-user.dto';
+import { UserDto } from './dtos/user.dto';
+import { UsersService } from './users.service';
+
+@Serialize(UserDto)
+@Controller('auth')
+export class UsersController {
+  constructor(
+    private readonly authService: AuthService,
+    private readonly usersService: UsersService,
+  ) {}
+
+  @Post('/signup')
+  async signUp(@Body() createUserDto: CreateUserDto) {
+    const { email, password } = createUserDto;
+    const user = await this.authService.findByEmail(email);
+    if (!user) {
+      this.usersService.create(
+        createUserDto.name,
+        createUserDto.email,
+        createUserDto.password,
+        createUserDto.company,
+      );
+      return { message: 'Utilizatorul a fost creat cu succes' };
+    }
+    return { message: 'Utilizatorul exista deja' };
+  }
+  // @Get('/:id')
+  // findUser(@Param('id') id: string) {
+  //   const user = this.userService.findById(id);
+  //   if (!user) {
+  //     throw new NotFoundException('utilizatorul nu a fost gasit');
+  //   }
+  //   return user;
+  // }
+  //
+  // @Get()
+  // async findAllUsers(@Query('email') email: string): Promise<User[]> {
+  //   return this.userService.findByEmail(email);
+  // }
+  //
+  // @Delete('/:id')
+  // removeUser(@Param('id') id: string) {
+  //   return this.userService.remove(id);
+  // }
+  //
+  // @Patch('/:id')
+  // updateUser(@Param('id') id: string, @Body() body: UpdateUserDto) {
+  //   return this.userService.update(id, body);
+  // }
+}
