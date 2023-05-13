@@ -1,5 +1,4 @@
-import { IsDate, IsNumber, IsString } from 'class-validator';
-import { User } from 'src/users/user.entity';
+import { IsNumber, IsString } from 'class-validator';
 
 export class CreateProjectDto {
   @IsString()

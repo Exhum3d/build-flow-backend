@@ -1,11 +1,9 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
-import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { Request } from 'express';
 import { AuthService } from './auth/auth.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { LoginUserDto } from './dtos/login-user.dto';
-import { UserDto } from './dtos/user.dto';
-import { LocalAuthGuard } from './guards/local-auth.guard';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { UsersService } from './users.service';
 
 // @Serialize(UserDto)
@@ -20,11 +18,18 @@ export class UsersController {
   async signUp(@Body() createUserDto: CreateUserDto) {
     const { name, email, password, company } = createUserDto;
     await this.authService.signUp(name, email, password, company);
+
     return createUserDto;
   }
 
   @Post('/login')
   async login(@Body() loginUserDto: LoginUserDto) {
     return this.authService.login(loginUserDto);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/me')
+  getLoggedInUser(@Req() request: Request) {
+    return request.user;
   }
 }

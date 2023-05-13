@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -8,7 +9,6 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { UpdateUserDto } from 'src/users/dtos/update-user.dto';
 import { JwtAuthGuard } from 'src/users/guards/jwt-auth.guard';
 import { CreateProjectDto } from '../dtos/create-project.dto';
 import { UpdateProjectDto } from '../dtos/update-project.dto';
@@ -27,7 +27,6 @@ export class ProjectController {
   @Post('/create-project')
   create(@Body() createProjectDto: CreateProjectDto, @Req() request: Request) {
     const user = request['user'];
-    console.log(user);
     this.projectService.create(
       createProjectDto.name,
       createProjectDto.description,
@@ -55,5 +54,11 @@ export class ProjectController {
   @Patch('/:id')
   updateProjectById(@Param('id') id: string, @Body() attrs: UpdateProjectDto) {
     return this.projectService.update(id, attrs);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete('/:id')
+  delete(@Param('id') id: string) {
+    return this.projectService.remove(id);
   }
 }
