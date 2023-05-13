@@ -1,5 +1,6 @@
 import { Project } from 'src/project/entities/project.entity';
 import { Task } from 'src/project/entities/task.entity';
+import { Board } from 'src/scrumboard/entities/board.entity';
 import {
   Entity,
   Column,
@@ -48,6 +49,9 @@ export class User {
 
   @ManyToMany(() => Project, (project) => project.members)
   projects: Project[];
+
+  @ManyToMany(() => Board, (board) => board.members)
+  boards: Board[];
 
   @AfterInsert()
   logInsert() {

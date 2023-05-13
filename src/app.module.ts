@@ -10,6 +10,10 @@ import { Project } from './project/entities/project.entity';
 import { ProjectPhase } from './project/entities/project-phase.entity';
 import { Task } from './project/entities/task.entity';
 import { ScrumboardModule } from './scrumboard/scrumboard.module';
+import { Board } from './scrumboard/entities/board.entity';
+import { List } from './scrumboard/entities/list.entity';
+import { Card } from './scrumboard/entities/card.entity';
+import { Label } from './scrumboard/entities/label.entity';
 
 @Module({
   imports: [
@@ -18,7 +22,7 @@ import { ScrumboardModule } from './scrumboard/scrumboard.module';
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'db.sqlite',
-      entities: [User, Project, ProjectPhase, Task],
+      entities: [User, Project, ProjectPhase, Task, Board, List, Card, Label],
       synchronize: true,
     }),
     ProjectModule,

@@ -1,7 +1,18 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from 'src/users/user.entity';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Card } from './card.entity';
+import { Label } from './label.entity';
+import { List } from './list.entity';
 
 // Exemplu
-// id: '2c82225f-2a6c-45d3-b18a-1132712a4234',
+// id: '2c82225F-2a6c-45d3-b18a-1132712a4234',
 // title: 'Studiu de fezabilitate',
 // description: 'Se va face o analiză detaliata a cerințelor clientului',
 // icon: 'heroicons_outline:calendar',
@@ -28,4 +39,17 @@ export class Board {
 
   @Column()
   lastActivity: Date;
+
+  @OneToMany(() => Label, (label) => label.board)
+  labels: Label[];
+
+  @OneToMany(() => List, (list) => list.board)
+  lists: List[];
+
+  @ManyToMany(() => User)
+  @JoinTable()
+  members: User[];
+
+  @OneToMany(() => Card, (card) => card.board)
+  cards: Card[];
 }
