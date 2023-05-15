@@ -34,7 +34,7 @@ export class Board {
   @Column()
   description: string;
 
-  @Column()
+  @Column({ nullable: true })
   icon: string;
 
   @Column()
