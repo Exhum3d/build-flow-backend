@@ -15,17 +15,14 @@ export class Card {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ nullable: true })
   title: string;
 
-  @Column()
+  @Column({ nullable: true })
   description: string;
 
-  @Column()
-  position: number;
-
   @Column({ nullable: true })
-  startDate: Date;
+  position: number;
 
   @Column({ nullable: true })
   dueDate: Date;
@@ -34,13 +31,13 @@ export class Card {
   @JoinTable()
   labels: Label[];
 
-  @Column()
+  @Column({ nullable: true })
   listId: string;
 
   @ManyToOne(() => List, (list) => list.cards)
   list: List;
 
-  @Column()
+  @Column({ nullable: true })
   boardId: string;
 
   @ManyToOne(() => Board, (board) => board.cards)

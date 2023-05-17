@@ -37,19 +37,19 @@ export class Board {
   @Column({ nullable: true })
   icon: string;
 
-  @Column()
+  @Column({ nullable: true })
   lastActivity: Date;
 
-  @OneToMany(() => Label, (label) => label.board)
+  @OneToMany(() => Label, (label) => label.board, { onDelete: 'CASCADE' })
   labels: Label[];
 
-  @OneToMany(() => List, (list) => list.board)
+  @OneToMany(() => List, (list) => list.board, { onDelete: 'CASCADE' })
   lists: List[];
 
   @ManyToMany(() => User)
   @JoinTable()
   members: User[];
 
-  @OneToMany(() => Card, (card) => card.board)
+  @OneToMany(() => Card, (card) => card.board, { onDelete: 'CASCADE' })
   cards: Card[];
 }

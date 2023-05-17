@@ -5,6 +5,7 @@ export class CreateBoardDto {
   title: string;
 
   @IsString()
+  @IsOptional()
   description: string;
 
   @IsString()
@@ -12,5 +13,6 @@ export class CreateBoardDto {
   icon: string;
 
   @IsString()
+  @IsOptional()
   lastActivity: string;
 }

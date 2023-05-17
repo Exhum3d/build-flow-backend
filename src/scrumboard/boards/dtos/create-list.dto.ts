@@ -4,9 +4,9 @@ export class CreateListDto {
   @IsString()
   boardId: string;
 
-  @IsString()
-  title: string;
-
   @IsNumber()
   position: number;
+
+  @IsString()
+  title: string;
 }

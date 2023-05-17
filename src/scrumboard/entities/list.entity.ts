@@ -19,7 +19,10 @@ export class List {
   @Column()
   position: number;
 
-  @ManyToOne(() => Board, (board) => board.lists)
+  @Column({ nullable: true })
+  boardId: string;
+
+  @ManyToOne(() => Board, (board) => board.lists, { onDelete: 'CASCADE' })
   board: Board;
 
   @OneToMany(() => Card, (card) => card.list)
