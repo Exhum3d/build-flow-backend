@@ -1,5 +1,4 @@
 import { Project } from 'src/project/entities/project.entity';
-import { Task } from 'src/project/entities/task.entity';
 import { Board } from 'src/scrumboard/entities/board.entity';
 import {
   Entity,
@@ -43,9 +42,6 @@ export class User {
 
   @OneToMany(() => Project, (project) => project.createdBy)
   createdProjects: Project[];
-
-  @OneToMany(() => Task, (project) => project.createdBy)
-  createdTasks: Task[];
 
   @ManyToMany(() => Project, (project) => project.members)
   projects: Project[];

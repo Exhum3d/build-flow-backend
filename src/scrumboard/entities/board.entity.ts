@@ -1,9 +1,11 @@
+import { Project } from 'src/project/entities/project.entity';
 import { User } from 'src/users/user.entity';
 import {
   Column,
   Entity,
   JoinTable,
   ManyToMany,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -52,4 +54,10 @@ export class Board {
 
   @OneToMany(() => Card, (card) => card.board, { onDelete: 'CASCADE' })
   cards: Card[];
+
+  @Column()
+  projectId: string;
+
+  @ManyToOne(() => Project, (project) => project.boards)
+  project: Project;
 }

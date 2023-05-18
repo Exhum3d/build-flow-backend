@@ -1,9 +1,9 @@
+import { Board } from 'src/scrumboard/entities/board.entity';
 import { User } from 'src/users/user.entity';
 import {
   AfterInsert,
   AfterUpdate,
   Column,
-  CreateDateColumn,
   Entity,
   JoinTable,
   ManyToMany,
@@ -11,23 +11,22 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { ProjectPhase } from './project-phase.entity';
 
 @Entity()
 export class Project {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ nullable: true })
   name: string;
 
-  @Column()
+  @Column({ nullable: true })
   description: string;
 
-  @Column()
+  @Column({ nullable: true })
   stakeholder: string;
 
-  @Column()
+  @Column({ nullable: true })
   budget: number;
 
   @Column({ type: 'datetime', nullable: true })
@@ -41,8 +40,8 @@ export class Project {
   })
   createdBy: User;
 
-  @OneToMany(() => ProjectPhase, (projectPhase) => projectPhase.project)
-  projectPhases: ProjectPhase[];
+  @OneToMany(() => Board, (board) => board.project)
+  boards: Board[];
 
   @ManyToMany(() => User, (user) => user.projects)
   @JoinTable()

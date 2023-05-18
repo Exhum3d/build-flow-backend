@@ -6,9 +6,10 @@ import { Label } from './entities/label.entity';
 import { List } from './entities/list.entity';
 import { BoardsService } from './boards/boards.service';
 import { BoardsController } from './boards/boards.controller';
+import { Project } from 'src/project/entities/project.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Board, List, Card, Label])],
+  imports: [TypeOrmModule.forFeature([Project, Board, List, Card, Label])],
   providers: [BoardsService],
   controllers: [BoardsController],
 })

@@ -28,6 +28,7 @@ export class BoardsService {
 
   // creare board
   async createBoard(
+    projectId: string,
     titleFromDto: string,
     descriptionFromDto: string,
     lastActivityFromDto: string,
@@ -39,6 +40,7 @@ export class BoardsService {
       description: descriptionFromDto,
       lastActivity,
       icon: iconFromDto,
+      projectId: projectId,
     });
     board = await this.boardRepository.save(board);
     const list1 = this.listRepository.create({
@@ -95,9 +97,11 @@ export class BoardsService {
     return board;
   }
 
-  // gasirea tuturor board-urilor
-  async getBoards() {
-    return await this.boardRepository.find();
+  // gasirea tuturor board-urilor dupa id-ul proiectului
+  async getBoards(projectId: string) {
+    const boards = await this.boardRepository.find({ where: { projectId } });
+    console.log('boards din backend', boards);
+    return boards;
   }
 
   // actualizare board

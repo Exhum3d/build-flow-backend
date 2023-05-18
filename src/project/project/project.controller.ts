@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Put,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -17,11 +18,6 @@ import { ProjectService } from './project.service';
 @Controller('project')
 export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
-  @UseGuards(JwtAuthGuard)
-  @Get('/test')
-  testMiddleware(@Req() request: Request) {
-    console.log('request', request['user'].id);
-  }
 
   @UseGuards(JwtAuthGuard)
   @Post('/create-project')

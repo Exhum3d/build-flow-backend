@@ -20,9 +20,13 @@ import { UpdateListDto } from './dtos/update-list.dto';
 export class BoardsController {
   constructor(private readonly boardsService: BoardsService) {}
 
-  @Put('/create-board')
-  async createBoard(@Body() createBoardDto: CreateBoardDto) {
+  @Put('/create-board/:projectId')
+  async createBoard(
+    @Param('projectId') projectId: string,
+    @Body() createBoardDto: CreateBoardDto,
+  ) {
     const createdBoard = await this.boardsService.createBoard(
+      projectId,
       createBoardDto.title,
       createBoardDto.description,
       createBoardDto.lastActivity,
@@ -31,9 +35,9 @@ export class BoardsController {
     return this.boardsService.removeCircularReferences(createdBoard);
   }
 
-  @Get()
-  getBoards() {
-    return this.boardsService.getBoards();
+  @Get('/project/:projectId')
+  getBoards(@Param('projectId') projectId: string) {
+    return this.boardsService.getBoards(projectId);
   }
 
   @Get('/:id')

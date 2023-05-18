@@ -42,7 +42,6 @@ export class ProjectService {
       dueDate,
       createdBy,
     });
-
     return this.projectRepository.save(project);
   }
 
