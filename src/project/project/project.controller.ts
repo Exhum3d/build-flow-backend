@@ -35,6 +35,18 @@ export class ProjectController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Get('/stats/:id')
+  getStats(@Param('id') id: string) {
+    return this.projectService.getStats(id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/gantt/:id')
+  getGantt(@Param('id') id: string) {
+    return this.projectService.getGanttData(id);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Get('/all-projects')
   findAllProjectsByUserId(@Req() request: Request) {
     return this.projectService.findAllProjectsByUserId(request['user'].id);

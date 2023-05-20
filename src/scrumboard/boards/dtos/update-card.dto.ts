@@ -23,6 +23,10 @@ export class UpdateCardDto {
 
   @IsString()
   @IsOptional()
+  startDate: string;
+
+  @IsString()
+  @IsOptional()
   dueDate: string;
 
   @IsNumber()

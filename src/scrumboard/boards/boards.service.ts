@@ -209,6 +209,7 @@ export class BoardsService {
       listId: createCardDto.listId,
       boardId: createCardDto.boardId,
       position: createCardDto.position,
+      startDate: createCardDto.startDate,
       dueDate: createCardDto.dueDate,
     });
     return this.cardRepository.save(card);

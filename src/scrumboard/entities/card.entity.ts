@@ -25,6 +25,9 @@ export class Card {
   position: number;
 
   @Column({ nullable: true })
+  startDate: Date;
+
+  @Column({ nullable: true })
   dueDate: Date;
 
   @ManyToMany(() => Label)
