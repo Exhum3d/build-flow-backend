@@ -15,6 +15,7 @@ export class UsersService {
     email: string,
     password: string,
     company: string,
+    role: string,
   ): Promise<User> {
     const saltRounds = 10;
     password = await bcrypt.hash(password, saltRounds);
@@ -24,6 +25,7 @@ export class UsersService {
       email,
       password,
       company,
+      role,
     });
 
     return this.userRepository.save(user);
@@ -34,7 +36,8 @@ export class UsersService {
   }
 
   async findByEmail(email: string): Promise<User> {
-    return this.userRepository.findOne({ where: { email } });
+    const user = await this.userRepository.findOne({ where: { email: email } });
+    return user;
   }
 
   async update(id: string, attrs: Partial<User>): Promise<User> {

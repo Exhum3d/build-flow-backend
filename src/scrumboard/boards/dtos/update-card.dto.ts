@@ -15,10 +15,6 @@ export class UpdateCardDto {
 
   @IsString()
   @IsOptional()
-  boardId: string;
-
-  @IsString()
-  @IsOptional()
   listId: string;
 
   @IsString()

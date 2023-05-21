@@ -14,6 +14,9 @@ export class CreateUserDto {
   company: string;
 
   @IsString()
+  role: string;
+
+  @IsString()
   @IsOptional()
   avatar: string;
 }

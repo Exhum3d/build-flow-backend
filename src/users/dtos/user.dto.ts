@@ -12,4 +12,7 @@ export class UserDto {
 
   @Expose()
   company: string;
+
+  @Expose()
+  role: string;
 }

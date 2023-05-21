@@ -11,10 +11,6 @@ export class CreateCardDto {
 
   @IsString()
   @IsOptional()
-  boardId: string;
-
-  @IsString()
-  @IsOptional()
   listId: string;
 
   @IsString()

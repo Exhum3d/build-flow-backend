@@ -46,16 +46,23 @@ export class AuthService {
     };
   }
 
+  async getLoggedInUserId(user: User) {
+    const foundUser = await this.userService.findById(user.id);
+    const { id } = foundUser;
+    return id;
+  }
+
   async signUp(
     name: string,
     email: string,
     password: string,
     company: string,
+    role: string,
   ): Promise<User> {
     const existingUser = await this.userService.findByEmail(email);
     if (existingUser) {
       throw new HttpException('Utilizatorul exista deja!', HttpStatus.CONFLICT);
     }
-    return this.userService.create(name, email, password, company);
+    return this.userService.create(name, email, password, company, role);
   }
 }

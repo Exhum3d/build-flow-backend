@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Query,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { Request } from 'express';
 import { AuthService } from './auth/auth.service';
 import { CreateUserDto } from './dtos/create-user.dto';
@@ -16,8 +24,8 @@ export class UsersController {
 
   @Post('/signup')
   async signUp(@Body() createUserDto: CreateUserDto) {
-    const { name, email, password, company } = createUserDto;
-    await this.authService.signUp(name, email, password, company);
+    const { name, email, password, company, role } = createUserDto;
+    await this.authService.signUp(name, email, password, company, role);
 
     return createUserDto;
   }
@@ -31,5 +39,10 @@ export class UsersController {
   @Get('/me')
   getLoggedInUser(@Req() request: Request) {
     return request.user;
+  }
+
+  @Get()
+  async getUserByEmail(@Query('email') email: string) {
+    return this.usersService.findByEmail(email);
   }
 }

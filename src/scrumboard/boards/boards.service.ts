@@ -4,6 +4,8 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Department } from 'src/project/entities/department.entity';
+import { Project } from 'src/project/entities/project.entity';
 import { EntityManager, Repository } from 'typeorm';
 import { Board } from '../entities/board.entity';
 import { Card } from '../entities/card.entity';
@@ -23,6 +25,10 @@ export class BoardsService {
     private readonly listRepository: Repository<List>,
     @InjectRepository(Card)
     private readonly cardRepository: Repository<Card>,
+    @InjectRepository(Department)
+    private readonly departmentRepository: Repository<Department>,
+    @InjectRepository(Project)
+    private readonly projectRepository: Repository<Project>,
     private readonly entityManager: EntityManager,
   ) {}
 
@@ -33,6 +39,8 @@ export class BoardsService {
     descriptionFromDto: string,
     lastActivityFromDto: string,
     iconFromDto?: string,
+    budget?: number,
+    department?: string,
   ) {
     const lastActivity = new Date(lastActivityFromDto.split('T')[0]);
     let board = this.boardRepository.create({
@@ -41,7 +49,21 @@ export class BoardsService {
       lastActivity,
       icon: iconFromDto,
       projectId: projectId,
+      budget: budget,
+      department: department,
     });
+    const project = await this.projectRepository.findOne({
+      where: { id: board.projectId },
+    });
+    const newDepartment = await this.departmentRepository
+      .createQueryBuilder('department')
+      .leftJoinAndSelect('department.projects', 'project')
+      .where('project.id = :projectId', { projectId: project.id })
+      .andWhere('department.title = :departmentTitle', {
+        departmentTitle: board.department,
+      })
+      .getOne();
+    board.departmentBudget = newDepartment.budget;
     board = await this.boardRepository.save(board);
     const list1 = this.listRepository.create({
       title: 'De Realizat',
@@ -69,6 +91,7 @@ export class BoardsService {
       this.listRepository.save(list3),
       this.listRepository.save(list4),
     ]);
+
     return board;
   }
 
@@ -111,6 +134,18 @@ export class BoardsService {
       throw new NotFoundException('board-ul nu a fost gasit');
     }
     Object.assign(board, attrs);
+    const project = await this.projectRepository.findOne({
+      where: { id: board.projectId },
+    });
+    const newDepartment = await this.departmentRepository
+      .createQueryBuilder('department')
+      .leftJoinAndSelect('department.projects', 'project')
+      .where('project.id = :projectId', { projectId: project.id })
+      .andWhere('department.title = :departmentTitle', {
+        departmentTitle: board.department,
+      })
+      .getOne();
+    board.departmentBudget = newDepartment.budget;
     return this.boardRepository.save(board);
   }
 
@@ -207,7 +242,6 @@ export class BoardsService {
       title: createCardDto.title,
       description: createCardDto.description,
       listId: createCardDto.listId,
-      boardId: createCardDto.boardId,
       position: createCardDto.position,
       startDate: createCardDto.startDate,
       dueDate: createCardDto.dueDate,
@@ -255,8 +289,6 @@ export class BoardsService {
       const updatedCard = await this.cardRepository.save(cardToUpdate);
       updatedCards.push(updatedCard);
     }
-
-    console.log('test');
     return updatedCards;
   }
 }

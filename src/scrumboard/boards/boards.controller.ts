@@ -31,6 +31,8 @@ export class BoardsController {
       createBoardDto.description,
       createBoardDto.lastActivity,
       createBoardDto.icon,
+      createBoardDto.budget,
+      createBoardDto.department,
     );
     return this.boardsService.removeCircularReferences(createdBoard);
   }

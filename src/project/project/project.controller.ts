@@ -7,10 +7,12 @@ import {
   Patch,
   Post,
   Put,
+  Query,
   Req,
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/users/guards/jwt-auth.guard';
+import { User } from 'src/users/user.entity';
 import { CreateProjectDto } from '../dtos/create-project.dto';
 import { UpdateProjectDto } from '../dtos/update-project.dto';
 import { ProjectService } from './project.service';
@@ -34,6 +36,17 @@ export class ProjectController {
     );
   }
 
+  @Post(':projectId/add-member/')
+  addMemberToProject(@Param('projectId') projectId: string, @Req() user: any) {
+    return this.projectService.addMemberToProject(projectId, user.body);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('')
+  getMemberByEmail(@Param('id') id: string) {
+    return this.projectService.getStats(id);
+  }
+
   @UseGuards(JwtAuthGuard)
   @Get('/stats/:id')
   getStats(@Param('id') id: string) {
@@ -41,9 +54,51 @@ export class ProjectController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Get('/:id/members')
+  getAllProjectMembers(@Param('id') id: string) {
+    return this.projectService.getAllProjectMembers(id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete('/:projectId/member/:memberId')
+  async removeMemberFromProject(
+    @Param('projectId') projectId: string,
+    @Param('memberId') memberId: string,
+  ) {
+    await this.projectService.removeMemberFromProject(projectId, memberId);
+    return {
+      message: `membrul cu id-ul ${memberId} a fost sters din lista de membri`,
+    };
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Get('/gantt/:id')
   getGantt(@Param('id') id: string) {
     return this.projectService.getGanttData(id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/budget-stats/:id')
+  getBudgetDetails(@Param('id') id: string) {
+    return this.projectService.getBudgetStats(id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/departments/:id')
+  getDepartments(@Param('id') id: string) {
+    return this.projectService.getDepartments(id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/department/:id')
+  getDepartmentById(@Param('id') id: string) {
+    return this.projectService.getDepartmentById(id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('/department/budget/:id')
+  editDepartmentBudget(@Param('id') id: string, amount: number) {
+    return this.projectService.editDepartmentBudget(id, amount);
   }
 
   @UseGuards(JwtAuthGuard)

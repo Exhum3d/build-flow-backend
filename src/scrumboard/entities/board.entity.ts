@@ -10,7 +10,6 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Card } from './card.entity';
-import { Label } from './label.entity';
 import { List } from './list.entity';
 
 // Exemplu
@@ -40,10 +39,16 @@ export class Board {
   icon: string;
 
   @Column({ nullable: true })
-  lastActivity: Date;
+  department: string;
 
-  @OneToMany(() => Label, (label) => label.board, { onDelete: 'CASCADE' })
-  labels: Label[];
+  @Column({ nullable: true })
+  departmentBudget: number;
+
+  @Column({ nullable: true })
+  budget: number;
+
+  @Column({ nullable: true })
+  lastActivity: Date;
 
   @OneToMany(() => List, (list) => list.board, { onDelete: 'CASCADE' })
   lists: List[];
@@ -51,9 +56,6 @@ export class Board {
   @ManyToMany(() => User)
   @JoinTable()
   members: User[];
-
-  @OneToMany(() => Card, (card) => card.board, { onDelete: 'CASCADE' })
-  cards: Card[];
 
   @Column()
   projectId: string;

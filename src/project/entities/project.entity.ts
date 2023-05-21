@@ -11,6 +11,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Department } from './department.entity';
 
 @Entity()
 export class Project {
@@ -35,6 +36,9 @@ export class Project {
   @Column({ type: 'datetime', nullable: true })
   dueDate: Date;
 
+  @Column({ nullable: true })
+  createdById: string;
+
   @ManyToOne(() => User, (user) => user.createdProjects, {
     onDelete: 'CASCADE',
   })
@@ -43,8 +47,13 @@ export class Project {
   @OneToMany(() => Board, (board) => board.project)
   boards: Board[];
 
-  @ManyToMany(() => User, (user) => user.projects)
+  @ManyToMany(() => Department, (department) => department.projects, {
+    cascade: true,
+  })
   @JoinTable()
+  departments: Department[];
+
+  @ManyToMany(() => User, (user) => user.projects)
   members: User[];
 
   @AfterInsert()

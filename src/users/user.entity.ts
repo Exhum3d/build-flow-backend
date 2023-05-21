@@ -9,6 +9,7 @@ import {
   AfterInsert,
   OneToMany,
   ManyToMany,
+  JoinTable,
 } from 'typeorm';
 
 // Exemplu entitate
@@ -40,10 +41,14 @@ export class User {
   @Column({ nullable: true })
   status: string;
 
+  @Column({ nullable: true })
+  role: string;
+
   @OneToMany(() => Project, (project) => project.createdBy)
   createdProjects: Project[];
 
   @ManyToMany(() => Project, (project) => project.members)
+  @JoinTable()
   projects: Project[];
 
   @ManyToMany(() => Board, (board) => board.members)
