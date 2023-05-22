@@ -4,9 +4,6 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { warn } from 'console';
-import { create } from 'domain';
-import { wrap } from 'module';
 import { User } from 'src/users/user.entity';
 import { Repository } from 'typeorm';
 import { UpdateProjectDto } from '../dtos/update-project.dto';
