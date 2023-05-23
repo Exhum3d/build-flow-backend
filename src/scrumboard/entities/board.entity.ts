@@ -53,10 +53,6 @@ export class Board {
   @OneToMany(() => List, (list) => list.board, { onDelete: 'CASCADE' })
   lists: List[];
 
-  @ManyToMany(() => User)
-  @JoinTable()
-  members: User[];
-
   @Column()
   projectId: string;
 

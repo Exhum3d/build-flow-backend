@@ -1,3 +1,4 @@
+import { File } from 'src/file-manager/entities/File.entity';
 import { Project } from 'src/project/entities/project.entity';
 import { Board } from 'src/scrumboard/entities/board.entity';
 import {
@@ -47,12 +48,12 @@ export class User {
   @OneToMany(() => Project, (project) => project.createdBy)
   createdProjects: Project[];
 
+  @OneToMany(() => File, (file) => file.createdBy)
+  files: File[];
+
   @ManyToMany(() => Project, (project) => project.members)
   @JoinTable()
   projects: Project[];
-
-  @ManyToMany(() => Board, (board) => board.members)
-  boards: Board[];
 
   @AfterInsert()
   logInsert() {

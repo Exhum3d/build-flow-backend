@@ -6,13 +6,10 @@ import {
   Param,
   Patch,
   Post,
-  Put,
-  Query,
   Req,
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/users/guards/jwt-auth.guard';
-import { User } from 'src/users/user.entity';
 import { CreateProjectDto } from '../dtos/create-project.dto';
 import { UpdateProjectDto } from '../dtos/update-project.dto';
 import { ProjectService } from './project.service';

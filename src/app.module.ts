@@ -12,6 +12,8 @@ import { Board } from './scrumboard/entities/board.entity';
 import { List } from './scrumboard/entities/list.entity';
 import { Card } from './scrumboard/entities/card.entity';
 import { Department } from './project/entities/department.entity';
+import { FileManagerModule } from './file-manager/file-manager.module';
+import { File } from './file-manager/entities/File.entity';
 
 @Module({
   imports: [
@@ -20,11 +22,12 @@ import { Department } from './project/entities/department.entity';
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'db.sqlite',
-      entities: [User, Project, Board, List, Card, Department],
+      entities: [User, Project, Board, List, Card, Department, File],
       synchronize: true,
     }),
     ProjectModule,
     ScrumboardModule,
+    FileManagerModule,
   ],
   controllers: [AppController],
   providers: [AppService],
