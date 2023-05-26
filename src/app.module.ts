@@ -14,6 +14,11 @@ import { Card } from './scrumboard/entities/card.entity';
 import { Department } from './project/entities/department.entity';
 import { FileManagerModule } from './file-manager/file-manager.module';
 import { File } from './file-manager/entities/File.entity';
+import { ChatModule } from './chat/chat.module';
+import { ConnectedUser } from './chat/entities/connected-user.entity';
+import { Message } from './chat/entities/message.entity';
+import { JoinedRoom } from './chat/entities/joined-room.entity';
+import { Room } from './chat/entities/room.entity';
 
 @Module({
   imports: [
@@ -22,12 +27,25 @@ import { File } from './file-manager/entities/File.entity';
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'db.sqlite',
-      entities: [User, Project, Board, List, Card, Department, File],
+      entities: [
+        User,
+        Project,
+        Board,
+        List,
+        Card,
+        Department,
+        File,
+        Room,
+        ConnectedUser,
+        Message,
+        JoinedRoom,
+      ],
       synchronize: true,
     }),
     ProjectModule,
     ScrumboardModule,
     FileManagerModule,
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [AppService],

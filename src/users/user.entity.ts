@@ -1,6 +1,9 @@
+import { ConnectedUser } from 'src/chat/entities/connected-user.entity';
+import { JoinedRoom } from 'src/chat/entities/joined-room.entity';
+import { Message } from 'src/chat/entities/message.entity';
+import { Room } from 'src/chat/entities/room.entity';
 import { File } from 'src/file-manager/entities/File.entity';
 import { Project } from 'src/project/entities/project.entity';
-import { Board } from 'src/scrumboard/entities/board.entity';
 import {
   Entity,
   Column,
@@ -24,16 +27,19 @@ export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ nullable: true })
+  socketId: string;
+
+  @Column({ nullable: true })
   name: string;
 
-  @Column()
+  @Column({ nullable: true })
   email: string;
 
-  @Column()
+  @Column({ nullable: true })
   company: string;
 
-  @Column()
+  @Column({ nullable: true })
   password: string;
 
   @Column({ nullable: true })
@@ -54,6 +60,18 @@ export class User {
   @ManyToMany(() => Project, (project) => project.members)
   @JoinTable()
   projects: Project[];
+
+  @ManyToMany(() => Room, (room) => room.users)
+  rooms: Room[];
+
+  @OneToMany(() => ConnectedUser, (connection) => connection.user)
+  connections: ConnectedUser[];
+
+  @OneToMany(() => JoinedRoom, (joinedRoom) => joinedRoom.room)
+  joinedRooms: JoinedRoom[];
+
+  @OneToMany(() => Message, (message) => message.user)
+  messages: Message[];
 
   @AfterInsert()
   logInsert() {

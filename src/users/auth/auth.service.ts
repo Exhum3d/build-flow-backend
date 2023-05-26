@@ -19,7 +19,7 @@ export class AuthService {
   ) {}
 
   async validateUser(email: string, password: string): Promise<UserDto> {
-    const user = await this.userService.findByEmail(email);
+    const user = await this.userService.findByEmailStandalone(email);
 
     if (user && (await bcrypt.compare(password, user.password))) {
       const { password, ...result } = user;
@@ -29,7 +29,7 @@ export class AuthService {
   }
 
   async login(user: LoginUserDto) {
-    const foundUser = await this.userService.findByEmail(user.email);
+    const foundUser = await this.userService.findByEmailStandalone(user.email);
     if (!foundUser || !(await this.validateUser(user.email, user.password))) {
       throw new HttpException(
         'Mailul sau parola sunt invalide',
@@ -59,7 +59,7 @@ export class AuthService {
     company: string,
     role: string,
   ): Promise<User> {
-    const existingUser = await this.userService.findByEmail(email);
+    const existingUser = await this.userService.findByEmailStandalone(email);
     if (existingUser) {
       throw new HttpException('Utilizatorul exista deja!', HttpStatus.CONFLICT);
     }

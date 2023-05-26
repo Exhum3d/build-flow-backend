@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   Query,
   Req,
@@ -44,5 +45,15 @@ export class UsersController {
   @Get()
   async getUserByEmail(@Query('email') email: string) {
     return this.usersService.findByEmail(email);
+  }
+
+  @Get('/users/chat/:id')
+  async getAllUsersFilteredForChat(@Param('id') loggedInUserId: string) {
+    return await this.usersService.getAllUsersFilteredForChat(loggedInUserId);
+  }
+
+  @Get('/users/:id')
+  async findById(@Param('id') id: string) {
+    return await this.usersService.findById(id);
   }
 }

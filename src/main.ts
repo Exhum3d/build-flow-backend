@@ -2,8 +2,6 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { config } from 'dotenv';
-import { AuthGuard } from '@nestjs/passport';
-import { JwtAuthGuard } from './users/guards/jwt-auth.guard';
 
 config();
 
