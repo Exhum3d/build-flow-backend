@@ -46,7 +46,9 @@ export class ChatService {
   }
 
   async findConnectedUserByUser(user: IUser): Promise<IConnectedUser[]> {
-    return this.connectedUserRepository.find({ where: { id: user.id } });
+    return this.connectedUserRepository.find({
+      where: { user: { id: user.id } },
+    });
   }
 
   async deleteConnectedUserBySocketId(socketId: string) {
@@ -129,5 +131,13 @@ export class ChatService {
   async addCreatorToRoom(room: IRoom, creator: IUser): Promise<IRoom> {
     room.users.push(creator);
     return room;
+  }
+
+  async deleteRoom(room: IRoom) {
+    const foundRoom = await this.roomRepository.findOne({
+      where: { id: room.id },
+    });
+
+    this.roomRepository.remove(foundRoom);
   }
 }

@@ -130,6 +130,11 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     await this.chatService.deleteJoinedRoomBySocketId(socket.id);
   }
 
+  @SubscribeMessage('deleteRoom')
+  async onDeleteRoom(socket: Socket, room: IRoom) {
+    await this.chatService.deleteRoom(room);
+  }
+
   @SubscribeMessage('addMessage')
   async onAddMessage(socket: Socket, message: IMessage) {
     const createdMessage: IMessage = await this.chatService.createMessage({

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from 'src/users/user.entity';
+import { User } from '../users/user.entity';
 import { UsersModule } from 'src/users/users.module';
 import { File } from './entities/File.entity';
 import { FileManagerController } from './file-manager.controller';

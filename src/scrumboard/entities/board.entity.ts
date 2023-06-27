@@ -1,15 +1,11 @@
-import { Project } from 'src/project/entities/project.entity';
-import { User } from 'src/users/user.entity';
+import { Project } from '../../project/entities/project.entity';
 import {
   Column,
   Entity,
-  JoinTable,
-  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Card } from './card.entity';
 import { List } from './list.entity';
 
 // Exemplu

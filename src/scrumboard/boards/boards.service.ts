@@ -4,8 +4,8 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Department } from 'src/project/entities/department.entity';
-import { Project } from 'src/project/entities/project.entity';
+import { Department } from '../../project/entities/department.entity';
+import { Project } from '../../project/entities/project.entity';
 import { EntityManager, Repository } from 'typeorm';
 import { Board } from '../entities/board.entity';
 import { Card } from '../entities/card.entity';

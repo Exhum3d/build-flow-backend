@@ -15,7 +15,6 @@ import { LoginUserDto } from './dtos/login-user.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { UsersService } from './users.service';
 
-// @Serialize(UserDto)
 @Controller('auth')
 export class UsersController {
   constructor(

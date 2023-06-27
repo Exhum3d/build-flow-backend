@@ -1,5 +1,5 @@
-import { Board } from 'src/scrumboard/entities/board.entity';
-import { User } from 'src/users/user.entity';
+import { Board } from '../../scrumboard/entities/board.entity';
+import { User } from '../../users/user.entity';
 import {
   AfterInsert,
   AfterUpdate,

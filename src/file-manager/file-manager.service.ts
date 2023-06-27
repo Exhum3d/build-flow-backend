@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/users/user.entity';
+import { User } from '../users/user.entity';
 import { Repository } from 'typeorm';
-import { CreateFileDto } from './dtos/create-file.dto';
 import { File } from './entities/File.entity';
 import { formatFileSize } from './utils/format-file-size.util';
 import * as fs from 'fs';

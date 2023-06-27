@@ -1,9 +1,9 @@
-import { ConnectedUser } from 'src/chat/entities/connected-user.entity';
-import { JoinedRoom } from 'src/chat/entities/joined-room.entity';
-import { Message } from 'src/chat/entities/message.entity';
-import { Room } from 'src/chat/entities/room.entity';
-import { File } from 'src/file-manager/entities/File.entity';
-import { Project } from 'src/project/entities/project.entity';
+import { ConnectedUser } from '../chat/entities/connected-user.entity';
+import { JoinedRoom } from '../chat/entities/joined-room.entity';
+import { Message } from '../chat/entities/message.entity';
+import { Room } from '../chat/entities/room.entity';
+import { File } from '../file-manager/entities/File.entity';
+import { Project } from '../project/entities/project.entity';
 import {
   Entity,
   Column,

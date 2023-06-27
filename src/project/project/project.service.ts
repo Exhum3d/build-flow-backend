@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/users/user.entity';
+import { User } from '../../users/user.entity';
 import { Repository } from 'typeorm';
 import { UpdateProjectDto } from '../dtos/update-project.dto';
 import { Department } from '../entities/department.entity';
@@ -160,7 +160,7 @@ export class ProjectService {
       relations: ['members'],
     });
     const foundUser = await this.userRepository.findOne({
-      where: { id: user.id },
+      where: { id: user[0].id },
       relations: ['projects'],
     });
 
@@ -174,7 +174,7 @@ export class ProjectService {
     await this.projectRepository.save(project);
     await this.userRepository.save(foundUser);
 
-    user = this.removeCircularReferences(user);
+    // user = this.removeCircularReferences(user);
 
     return user.projects;
   }
@@ -263,7 +263,7 @@ export class ProjectService {
 
     project.boards.forEach((board) => {
       const filteredListsNotTodo = board.lists.filter(
-        (list) => list.position !== 65536,
+        (list) => list.position !== 65536 && list.position !== 262144,
       );
       filteredListsNotTodo.forEach((list) =>
         list.cards.forEach(() => statistics.pendingTasks++),

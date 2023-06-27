@@ -9,7 +9,7 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/users/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../../users/guards/jwt-auth.guard';
 import { CreateProjectDto } from '../dtos/create-project.dto';
 import { UpdateProjectDto } from '../dtos/update-project.dto';
 import { ProjectService } from './project.service';
